@@ -19,7 +19,7 @@
                 <v-flex xs8>
                   <v-card-text>
                     <h2 class="text--primary">{{flag.title}}</h2>
-                    <p>{{flag.userId}}</p>
+                    <p>uid: {{flag.userId}}</p>
                   </v-card-text>
                 </v-flex>
               </v-layout>
@@ -28,12 +28,10 @@
               @click="createFlag"
               :loading="loading"
               :disabled="loading"
+              v-if="resolveAddFlag"
             >
               Add data
             </v-btn>
-            <p>
-              test: {{test}}
-            </p>
           </v-flex>
         </v-layout>
       </v-container>
@@ -45,13 +43,11 @@
 </template>
 
 <script>
-import * as firebase from 'firebase'
-
 export default {
   data () {
     return {
       title: '',
-      test: []
+      test: {}
     }
   },
   methods: {
@@ -68,21 +64,27 @@ export default {
       return this.$store.getters.loading
     },
     allFlag () {
-      return this.$store.getters.allUser
+      return this.$store.getters.allFlag
+    },
+    resolveAddFlag () {
+      let resolve = false
+      const flags = this.$store.getters.allFlag
+      const authUserId = this.$store.getters.userId
+      
+      for (let key in flags) {
+        if(flags[key].userId === authUserId) {
+          resolve = false
+          break
+        } else {
+          resolve = true
+        }
+      } 
+      return resolve
     }
   },
   created() {
-    let test = this.test;
-    let data;
-    let refVal = firebase.database().ref().child('ads')
-    
-    refVal.on('value', snap => {
-      data = JSON.stringify(snap.val(), null, 3)
-      console.log('ss= ', test)
-      test.push(data)
-    })
-    
-
+    // this.$store.dispatch('fetchFlag')
+    this.$store.dispatch('realtimeUpdate')
   }
 }
 </script>

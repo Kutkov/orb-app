@@ -8,11 +8,15 @@ class User {
 
 export default {
   state: {
-    user: null
+    user: null,
+    userId: ''
   },
   mutations: {
     setUser(state, payload) {
       state.user = payload
+    },
+    setUserId(state, payload) {
+      state.userId = payload
     }
   },
   actions: {
@@ -42,10 +46,11 @@ export default {
         throw error
       }
     },
-    autoLoginUser ({commit}, payload) {
+    autoLoginUser({ commit }, payload) {
       commit('setUser', new User(payload.uid))
+      commit('setUserId', payload.uid)
     },
-    logoutUser ({commit}) {
+    logoutUser({ commit }) {
       firebase.auth().signOut()
       commit('setUser', null)
     }
@@ -55,7 +60,10 @@ export default {
     user(state) {
       return state.user
     },
-    isUserLoggedIn (state) {
+    userId(state) {
+      return state.userId
+    },
+    isUserLoggedIn(state) {
       return state.user !== null
     }
   }

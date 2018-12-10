@@ -1,24 +1,24 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import store from './store'
-import Vuetify from 'vuetify'
-import * as firebase from 'firebase'
-import 'vuetify/dist/vuetify.min.css'
+import Vue from "vue";
+import App from "./App";
+import router from "./router";
+import store from "./store";
+import Vuetify from "vuetify";
+import * as firebase from "firebase";
+import "vuetify/dist/vuetify.min.css";
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
+  el: "#app",
   router,
   store,
   components: { App },
-  template: '<App/>',
+  template: "<App/>",
   created() {
     var config = {
       apiKey: "AIzaSyAwy7TznJ-Fq9clMhl05otP8kfER0iuQP8",
@@ -30,10 +30,9 @@ new Vue({
     };
     firebase.initializeApp(config);
     firebase.auth().onAuthStateChanged(user => {
-      if(user) {
-        this.$store.dispatch('autoLoginUser', user)
+      if (user) {
+        this.$store.dispatch("autoLoginUser", user);
       }
-    })
-    this.$store.dispatch('fetchFlag')
+    });
   }
-})
+});
