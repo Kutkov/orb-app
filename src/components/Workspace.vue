@@ -2,8 +2,9 @@
   <v-app>
     <v-content>
       <v-container fluid>
+        <!--
         <v-layout align-center justify-center>
-          <v-flex xs12 sm8 md4>
+          
             <h1 class="font-weight-thin display-3">Workspace orb app</h1>
             <h2 v-if="authUser == ''">Войдите или зарегистрируйтесь</h2>
             <v-text-field
@@ -11,7 +12,9 @@
               solo
               v-if="resolveAddFlag"
             ></v-text-field>
-            <p class="body-2 font-weight-thin">{{title}}</p>
+        </v-layout>
+        <v-layout align-center justify-center>
+          <v-flex xs12 sm8 md4>
             <v-card 
               class="elevation-7 mb-4"
               v-for="flag in allFlag"
@@ -41,10 +44,57 @@
             </v-btn>
           </v-flex>
         </v-layout>
-      </v-container>
-      <v-btn flat @click="onLogout">
-        Logout
-      </v-btn>
+      -->
+
+        <v-layout align-center justify-center>
+            <h1 class="font-weight-thin display-3">Workspace orb app</h1>
+            <h2 v-if="authUser == ''">Войдите или зарегистрируйтесь</h2>
+            <v-text-field
+              v-model="title"
+              solo
+              v-if="resolveAddFlag"
+            ></v-text-field>
+        </v-layout>
+
+        <v-layout justify-center>
+          <v-flex
+            xs12 sm6 md2
+            v-for="flag in allFlag"
+            :key="flag.id"
+            ma-2
+          >
+            <v-card>
+              <v-container>
+                <v-layout justify-center>
+                  <v-btn fab dark class="btn-size" :color="flag.status == true ? 'cyan' : 'red'" @click="changeColor(flag.status, flag.key, flag.userId)">
+                    <v-icon dark class="icon-size" color="white">outlined_flag</v-icon>
+                  </v-btn>
+                </v-layout>
+                <v-layout justify-center>
+                  <v-card-title>
+                    <p class="headline">{{flag.title}}</p>
+                  </v-card-title>       
+                </v-layout>
+              </v-container>
+            </v-card>
+          </v-flex>
+        </v-layout>
+
+        <v-layout>
+          <v-btn
+            @click="createFlag"
+            :loading="loading"
+            :disabled="loading"
+            v-if="resolveAddFlag"
+          >
+            Add data
+          </v-btn>
+          <v-btn flat @click="onLogout">
+            Logout
+          </v-btn>
+        </v-layout>
+
+      </v-container> 
     </v-content>
   </v-app>
 </template>
@@ -109,6 +159,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .btn-size{
+    height: 80px;
+    width: 80px;
+  }
+  .icon-size{
+    font-size: 35px;
+  }
 </style>
