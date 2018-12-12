@@ -21,9 +21,9 @@ export default {
 
       const newObj = {
         title: payload,
+        status: true,
         userId: getters.user.id
       }
-      console.log('newTitle = ', newObj)
 
       try {
         await firebase.database().ref('ads').push(newObj)
@@ -34,24 +34,13 @@ export default {
         throw error
       }
     },
-    async fetchFlag({ commit }) {
+    async updateFlag({ commit }, payload) {
       commit('clearError')
       commit('setLoading', true)
-      const resultFlags = []
 
       try {
-        const fbVal = await firebase.database().ref('ads').once('value')
-        const flags = fbVal.val()
-        console.log('fl =', flags)
-
-        Object.keys(flags).forEach(key => {
-          const flag = flags[key]
-          resultFlags.push({
-            title: flag.title,
-            userId: flag.userId
-          })
-        })
-        commit('loadFlags', resultFlags)
+        const firebaseRef = firebase.database().ref(`ads/${payload.key}`)
+        firebaseRef.update({ status: !payload.status })
         commit('setLoading', false)
       } catch (error) {
         commit('setError', error.message)
@@ -76,7 +65,9 @@ export default {
               const flag = flags[key]
               resultFlags.push({
                 title: flag.title,
-                userId: flag.userId
+                status: flag.status,
+                userId: flag.userId,
+                key: key
               })
             })
             commit('loadFlags', resultFlags)

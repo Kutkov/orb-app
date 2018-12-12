@@ -5,9 +5,11 @@
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <h1 class="font-weight-thin display-3">Workspace orb app</h1>
+            <h2 v-if="authUser == ''">Войдите или зарегистрируйтесь</h2>
             <v-text-field
               v-model="title"
               solo
+              v-if="resolveAddFlag"
             ></v-text-field>
             <p class="body-2 font-weight-thin">{{title}}</p>
             <v-card 
@@ -16,10 +18,15 @@
               :key="flag.id"
             >
               <v-layout row>
-                <v-flex xs8>
+                <v-flex  offset-md1 md3>
+                  <v-btn fab dark large :color="flag.status == true ? 'cyan' : 'red'" @click="changeColor(flag.status, flag.key, flag.userId)">
+                    <v-icon dark color="white">outlined_flag</v-icon>
+                  </v-btn>
+                </v-flex>
+                <v-flex md8>
                   <v-card-text>
-                    <h2 class="text--primary">{{flag.title}}</h2>
-                    <p>uid: {{flag.userId}}</p>
+                    <h2 class="font-weight-medium blue--text">{{flag.title}}</h2>
+                    <p >uid: {{flag.userId}}</p>
                   </v-card-text>
                 </v-flex>
               </v-layout>
@@ -47,7 +54,7 @@ export default {
   data () {
     return {
       title: '',
-      test: {}
+      color: 'cyan'
     }
   },
   methods: {
@@ -57,6 +64,17 @@ export default {
     },
     createFlag () {
       this.$store.dispatch('createFlag', this.title)
+    },
+    changeColor (status, key, userId) {
+      const payload = {
+        status,
+        key
+      }
+      if(this.authUser === userId) {
+        this.$store.dispatch('updateFlag', payload)
+      } else {
+        console.log('dont use someone else is flag')
+      }
     }
   },
   computed: {
@@ -65,6 +83,9 @@ export default {
     },
     allFlag () {
       return this.$store.getters.allFlag
+    },
+    authUser () {
+      return this.$store.getters.userId
     },
     resolveAddFlag () {
       let resolve = false
@@ -83,7 +104,6 @@ export default {
     }
   },
   created() {
-    // this.$store.dispatch('fetchFlag')
     this.$store.dispatch('realtimeUpdate')
   }
 }
