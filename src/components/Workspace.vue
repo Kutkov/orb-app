@@ -1,39 +1,25 @@
 <template>
   <v-app>
     <v-content>
-      <v-container fluid>
-        <!--
         <v-layout align-center justify-center>
-          
-            <h1 class="font-weight-thin display-3">Workspace orb app</h1>
-            <h2 v-if="authUser == ''">Войдите или зарегистрируйтесь</h2>
+          <v-container>
+            <h1 class="font-weight-thin display-3 text-xs-center">Workspace orb app</h1>
+          </v-container>
+        </v-layout>
+        <v-layout align-center justify-center v-if="authUser == ''">
+          <v-container>
+            <h2 class="font-weight-thin display-3">Войдите или зарегистрируйтесь</h2>
+          </v-container>
+        </v-layout>
+        <v-layout align-center justify-center mb-3>
+          <v-flex xs12 sm4 md3 class="text-sm-center">
             <v-text-field
               v-model="title"
               solo
+              placeholder="Name"
+              label="your name"
               v-if="resolveAddFlag"
             ></v-text-field>
-        </v-layout>
-        <v-layout align-center justify-center>
-          <v-flex xs12 sm8 md4>
-            <v-card 
-              class="elevation-7 mb-4"
-              v-for="flag in allFlag"
-              :key="flag.id"
-            >
-              <v-layout row>
-                <v-flex  offset-md1 md3>
-                  <v-btn fab dark large :color="flag.status == true ? 'cyan' : 'red'" @click="changeColor(flag.status, flag.key, flag.userId)">
-                    <v-icon dark color="white">outlined_flag</v-icon>
-                  </v-btn>
-                </v-flex>
-                <v-flex md8>
-                  <v-card-text>
-                    <h2 class="font-weight-medium blue--text">{{flag.title}}</h2>
-                    <p >uid: {{flag.userId}}</p>
-                  </v-card-text>
-                </v-flex>
-              </v-layout>
-            </v-card>
             <v-btn
               @click="createFlag"
               :loading="loading"
@@ -44,18 +30,6 @@
             </v-btn>
           </v-flex>
         </v-layout>
-      -->
-
-        <v-layout align-center justify-center>
-            <h1 class="font-weight-thin display-3">Workspace orb app</h1>
-            <h2 v-if="authUser == ''">Войдите или зарегистрируйтесь</h2>
-            <v-text-field
-              v-model="title"
-              solo
-              v-if="resolveAddFlag"
-            ></v-text-field>
-        </v-layout>
-
         <v-layout justify-center>
           <v-flex
             xs12 sm6 md2
@@ -79,22 +53,11 @@
             </v-card>
           </v-flex>
         </v-layout>
-
-        <v-layout>
-          <v-btn
-            @click="createFlag"
-            :loading="loading"
-            :disabled="loading"
-            v-if="resolveAddFlag"
-          >
-            Add data
-          </v-btn>
-          <v-btn flat @click="onLogout">
-            Logout
-          </v-btn>
+        <v-layout justify-center mb-3>  
+            <v-btn flat @click="onLogout">
+              Logout
+            </v-btn>
         </v-layout>
-
-      </v-container> 
     </v-content>
   </v-app>
 </template>
