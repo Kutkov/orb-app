@@ -38,7 +38,44 @@
             ma-2
           >
             <v-card>
-              <v-container>
+              <v-container pa-3>
+                <v-layout justify-end>
+                  <div class="text-xs-center">
+                    <v-dialog
+                      v-model="dialog"
+                      width="500"
+                    >
+                      <v-btn flat icon color="cyan" slot="activator" class="ma-0">
+                        <v-icon>settings</v-icon>
+                      </v-btn>
+                      <v-card>
+                        <v-card-title
+                          class="headline grey lighten-2"
+                          primary-title
+                        >
+                          Privacy Policy
+                        </v-card-title>
+
+                        <v-card-text>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="primary"
+                            flat
+                            @click="dialog = false"
+                          >
+                            I accept
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </div>
+                </v-layout>
                 <v-layout justify-center>
                   <v-btn fab dark class="btn-size" :color="flag.status == true ? 'cyan' : 'red'" @click="changeColor(flag.status, flag.key, flag.userId)">
                     <v-icon dark class="icon-size" color="white">outlined_flag</v-icon>
@@ -47,11 +84,17 @@
                 <v-layout justify-center>
                   <v-card-title>
                     <p class="headline">{{flag.title}}</p>
-                  </v-card-title>       
+                  </v-card-title>   
+                </v-layout>
+                <v-layout elevation-2 pa-2 v-if="flag.status === true">
+                  <p class="mb-0">Your application is running here: http://localhost:8080 ls Compiled successfully in 403ms </p>
                 </v-layout>
               </v-container>
             </v-card>
           </v-flex>
+        </v-layout>
+        <v-layout justify-center>
+         
         </v-layout>
         <v-layout justify-center mb-3>  
             <v-btn flat @click="onLogout">
@@ -67,7 +110,8 @@ export default {
   data () {
     return {
       title: '',
-      color: 'cyan'
+      color: 'cyan',
+      dialog: false
     }
   },
   methods: {
