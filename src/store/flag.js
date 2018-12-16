@@ -22,7 +22,10 @@ export default {
       const newObj = {
         title: payload,
         status: true,
-        userId: getters.user.id
+        userId: getters.user.id,
+        settings: {
+          mindMessage: ''
+        }
       }
 
       try {
@@ -67,6 +70,7 @@ export default {
                 title: flag.title,
                 status: flag.status,
                 userId: flag.userId,
+                settings: flag.settings,
                 key: key
               })
             })
