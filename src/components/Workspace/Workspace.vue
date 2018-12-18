@@ -33,7 +33,7 @@
         <v-layout justify-center>
           <v-flex
             xs12 sm6 md2
-            v-for="flag in allFlag"
+            v-for="(flag, index) in allFlag"
             :key="flag.id"
             ma-2
           >
@@ -42,7 +42,7 @@
                 <v-layout justify-end>
                   <div class="text-xs-center">
                     <v-dialog
-                      v-model="dialog"
+                      v-model="dialog[index]"
                       width="500"
                     >
                       <v-btn flat icon color="primary" slot="activator" class="ma-0">
@@ -60,7 +60,7 @@
                             solo
                             label="Mind message"
                             v-model="mindMessage"
-                            
+                            no-resize
                           ></v-textarea>
                           <v-btn
                             color="primary"
@@ -104,9 +104,7 @@
             </v-card>
           </v-flex>
         </v-layout>
-        <v-layout justify-center>
-         
-        </v-layout>
+
         <v-layout justify-center mb-3>  
             <v-btn flat @click="onLogout">
               Logout
@@ -117,14 +115,18 @@
 </template>
 
 <script>
+import FlagSettings from './FlagSettings.vue'
 export default {
   data () {
     return {
       title: '',
       color: 'cyan',
-      dialog: false,
+      dialog: [],
       mindMessage: ''
     }
+  },
+  components: {
+    FlagSettings: FlagSettings
   },
   methods: {
     onLogout () {

@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Workspace from '@/components/Workspace'
-import HelloPage from '@/components/HelloPage'
+import Workspace from '@/components/Workspace/Workspace'
+import HelloPage from '@/components/HelloPage/HelloPage'
+
 
 Vue.use(Router)
 
