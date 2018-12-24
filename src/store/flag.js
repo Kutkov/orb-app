@@ -42,7 +42,7 @@ export default {
       commit('setLoading', true)
 
       try {
-        const firebaseRef = firebase.database().ref(`ads/${payload.key}`)
+        const firebaseRef = await firebase.database().ref(`ads/${payload.key}`)
         firebaseRef.update({ status: !payload.status })
         commit('setLoading', false)
       } catch (error) {

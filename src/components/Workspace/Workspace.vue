@@ -33,59 +33,14 @@
         <v-layout justify-center>
           <v-flex
             xs12 sm6 md2
-            v-for="(flag, index) in allFlag"
+            v-for="(flag) in allFlag"
             :key="flag.id"
             ma-2
           >
             <v-card>
               <v-container pa-3>
-                <v-layout justify-end>
-                  <div class="text-xs-center">
-                    <v-dialog
-                      v-model="dialog[index]"
-                      width="500"
-                    >
-                      <v-btn flat icon color="primary" slot="activator" class="ma-0">
-                        <v-icon>settings</v-icon>
-                      </v-btn>
-                      <v-card justify-center>
-                        <v-card-title
-                          class="headline grey lighten-2"
-                          primary-title
-                        >
-                          Privacy Policy
-                        </v-card-title>
-                        <v-card-text>
-                          <v-textarea
-                            solo
-                            label="Mind message"
-                            v-model="mindMessage"
-                            no-resize
-                          ></v-textarea>
-                          <v-btn
-                            color="primary"
-                            class="ma-0"
-                          >
-                            Post my mind
-                          </v-btn>
-                        </v-card-text>
-                        
-
-                        <v-divider></v-divider>
-
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            color="primary"
-                            flat
-                            @click="dialog = false"
-                          >
-                            Cancel
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </div>
+                <v-layout justify-end class="settings-layout">
+                  <FlagSettings v-if="entrance(flag.userId)" :flagKey="flag.key"></FlagSettings>
                 </v-layout>
                 <v-layout justify-center>
                   <v-btn fab dark class="btn-size" :color="flag.status == true ? 'cyan' : 'red'" @click="changeColor(flag.status, flag.key, flag.userId)">
@@ -97,7 +52,7 @@
                     <p class="headline">{{flag.title}}</p>
                   </v-card-title>   
                 </v-layout>
-                <v-layout v-if="flag.settings.mindMessage" elevation-1 pa-2>
+                <v-layout v-if="flag.settings.mindMessage" pa-2>
                   <p class="mb-0 primary--text">{{flag.settings.mindMessage}}</p>
                 </v-layout>
               </v-container>
@@ -121,8 +76,7 @@ export default {
     return {
       title: '',
       color: 'cyan',
-      dialog: [],
-      mindMessage: ''
+      dialog: []
     }
   },
   components: {
@@ -132,6 +86,9 @@ export default {
     onLogout () {
       this.$store.dispatch('logoutUser')
       this.$router.push('/')
+    },
+    entrance (userId) {
+      return this.authUser === userId
     },
     createFlag () {
       this.$store.dispatch('createFlag', this.title)
@@ -187,5 +144,8 @@ export default {
   }
   .icon-size{
     font-size: 35px;
+  }
+  .settings-layout{
+    height: 36px;
   }
 </style>
