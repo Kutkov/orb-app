@@ -12,12 +12,12 @@
           class="headline grey lighten-2"
           primary-title
         >
-          Privacy Policy
+          Settings
         </v-card-title>
         <v-card-text>
           <v-textarea
             solo
-            label="Mind message"
+            label="Write your Mind message"
             v-model="mindMessage"
             no-resize
           ></v-textarea>
@@ -62,6 +62,7 @@ export default {
         key: this.flagKey
       }
       this.$store.dispatch('updateSettings', payload)
+      this.dialog = false
     }
   },
   computed: {

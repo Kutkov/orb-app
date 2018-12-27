@@ -8,7 +8,7 @@
         </v-layout>
         <v-layout align-center justify-center v-if="authUser == ''">
           <v-container>
-            <h2 class="font-weight-thin display-3">Войдите или зарегистрируйтесь</h2>
+            <h2 class="font-weight-thin display-3 text-xs-center">Войдите или зарегистрируйтесь</h2>
           </v-container>
         </v-layout>
         <v-layout align-center justify-center mb-3>
@@ -30,9 +30,9 @@
             </v-btn>
           </v-flex>
         </v-layout>
-        <v-layout justify-center>
+        <v-layout class="flag-wrap" justify-center>
           <v-flex
-            xs12 sm6 md2
+            xs12 sm6 md4 lg2
             v-for="(flag) in allFlag"
             :key="flag.id"
             ma-2
@@ -49,11 +49,11 @@
                 </v-layout>
                 <v-layout justify-center>
                   <v-card-title>
-                    <p class="headline">{{flag.title}}</p>
+                    <p class="headline ma-0">{{flag.title}}</p>
                   </v-card-title>   
                 </v-layout>
                 <v-layout v-if="flag.settings.mindMessage" pa-2>
-                  <p class="mb-0 primary--text">{{flag.settings.mindMessage}}</p>
+                  <p class="mb-0 grey--text text--darken-3">{{flag.settings.mindMessage}}</p>
                 </v-layout>
               </v-container>
             </v-card>
@@ -147,5 +147,8 @@ export default {
   }
   .settings-layout{
     height: 36px;
+  }
+  .flag-wrap {
+    flex-wrap: wrap;
   }
 </style>
